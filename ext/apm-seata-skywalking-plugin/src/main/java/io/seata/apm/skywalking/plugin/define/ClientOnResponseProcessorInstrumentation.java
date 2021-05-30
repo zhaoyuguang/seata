@@ -25,15 +25,13 @@ import org.apache.skywalking.apm.agent.core.plugin.match.ClassMatch;
 import static net.bytebuddy.matcher.ElementMatchers.named;
 import static net.bytebuddy.matcher.ElementMatchers.takesArgument;
 import static net.bytebuddy.matcher.ElementMatchers.takesArguments;
-import static org.apache.skywalking.apm.agent.core.plugin.match.NameMatch.byName;
+import static org.apache.skywalking.apm.agent.core.plugin.match.MultiClassNameMatch.byMultiClassMatch;
 
 /**
  * @author zhaoyuguang
  */
 
 public class ClientOnResponseProcessorInstrumentation extends ClassInstanceMethodsEnhancePluginDefine {
-
-    private static final String ENHANCE_CLASS = "io.seata.core.rpc.processor.client.ClientOnResponseProcessor";
 
     private static final String INTERCEPTOR_CLASS = "io.seata.apm.skywalking.plugin.ClientProcessorProcessInterceptor";
 
@@ -67,7 +65,7 @@ public class ClientOnResponseProcessorInstrumentation extends ClassInstanceMetho
 
     @Override
     protected ClassMatch enhanceClass() {
-        return byName(ENHANCE_CLASS);
+        return byMultiClassMatch("io.seata.core.rpc.processor.client.ClientOnResponseProcessor", "io.seata.core.rpc.processor.client.ClientHeartbeatProcessor");
     }
 
 }
